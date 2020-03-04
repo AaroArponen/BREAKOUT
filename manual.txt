@@ -1,0 +1,22 @@
+Manual
+
+Main menu:
+The best five scores are on display.
+To enter the game, press enter on the keyboard.
+To enter the hard mode, press w, i and n keys simultaneously.
+The hard mode has a blinking screen and a faster pace; in exhange one can pursue a higher score.
+
+In mobile mode, touch the screen to enter the game. There is no hard mode for mobile users.
+
+Game:
+The player moves the paddle on the bottom of the screen.
+The directional keys move the paddle left and right.
+The objective is to hit as many tiles as possible with a moving ball.
+If the player misses the ball, they lose a life.
+
+In mobile mode the paddle moves when the player touches the screen.
+
+Game over and Win screens:
+Upon losing all lives the player is taken to the game over screen.
+Upon hitting all the tiles the player is taken to the Win screen.
+On both occasions the player can either save their score, or just go back to the start screen. There's a button for these options.

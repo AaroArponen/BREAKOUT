@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+
+
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <link href="tyyli.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
+    <title>BREAKOUT</title>
+
+    <style>
+        
+    	canvas { 
+            background-color: aquamarine;
+            display: block; margin: auto auto; margin-top: aut; animation: blinker 3s linear infinite; width: "720%"; height: "576%";}
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+<canvas id="myCanvas" width="720" height="576"></canvas>
+
+
+
+<script>
+
+	//possible canvas sizes: 320×240, 384×288, 640×480, 720×576
+
+	var canvas = document.getElementById("myCanvas");
+
+	var ctx = canvas.getContext("2d");
+
+    
+
+    // logic
+
+    var x = canvas.width/2;
+
+	var y = canvas.height-30;
+
+    var dx = 2;
+
+    var dy = -2;
+
+    
+
+    var ballRadius = 10;
+
+    
+
+    var paddleHeight = 8;
+
+	var paddleWidth = 70;
+
+	var paddleX = (canvas.width-paddleWidth) / 2;
+
+    
+
+    var rightPressed = false;
+
+	var leftPressed = false;
+
+    
+
+    var brickRowCount = 3;
+
+	var brickColumnCount = 9;
+
+	var brickWidth = 60;
+
+	var brickHeight = 20;
+
+	var brickPadding = 4;
+
+	var brickOffsetTop = 40;
+
+	var brickOffsetLeft = 40;
+
+    
+
+    var bricks = [];
+
+	for(var c=0; c<brickColumnCount; c++) {
+
+    bricks[c] = [];
+
+    for(var r=0; r<brickRowCount; r++) {
+
+    bricks[c][r] = { x: 0, y: 0 };
+
+    bricks[c][r] = { x: 0, y: 0, status: 1 };
+
+	}
+
+}   
+
+
+
+    var lives = 1;
+
+	var hiscore = 0;
+
+
+
+    document.addEventListener("keydown", keyDownHandler, false);
+
+	document.addEventListener("keyup", keyUpHandler, false);
+
+    
+
+    function keyDownHandler(e) {
+
+    if(e.key == "Right" || e.key == "ArrowRight") {
+
+    rightPressed = true;
+
+}
+
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+
+        leftPressed = true;
+
+	}
+
+}
+
+	function collisionDetection() {
+
+    for(var c=0; c<brickColumnCount; c++) {
+
+    for(var r=0; r<brickRowCount; r++) {
+
+    var b = bricks[c][r];
+
+    if(b.status == 1) {
+
+    if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+
+    dy = -dy;
+
+    b.status = 0;
+
+      hiscore++;
+
+    if(hiscore == brickRowCount*brickColumnCount) {
+
+        sessionStorage.setItem("hiscore", hiscore);
+
+        $.post("you_win.php", function(data){
+                    $('#main').html(data);
+                    clearInterval(interval);
+                });
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+	function drawScore() {
+
+    ctx.font = "22px Arial";
+
+    ctx.fillStyle = "#F12000";
+
+    ctx.fillText("ბრეაკ: "+hiscore, 8, 20);
+
+}
+
+	function drawLives() {
+
+    ctx.font = "22px Arial";
+
+    ctx.fillStyle = "#F12000";
+
+    ctx.fillText("ՕՒՏ: "+lives, canvas.width-85, 20);
+
+}
+
+	function keyUpHandler(e) {
+
+    if(e.key == "Right" || e.key == "ArrowRight") {
+
+       rightPressed = false;
+
+}
+
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+
+            leftPressed = false;
+
+	}
+
+}
+
+
+
+	function getRandomColour(){
+
+    var red = Math.floor(Math.random()*1);
+
+    var green =  Math.floor(Math.random()*1);
+
+    var blue = Math.floor(Math.random()*256);
+
+    return "rgb("+red+","+green+"," +blue+" )";  
+
+}
+
+
+
+    //graphics:
+
+    //elements
+
+	function drawBall() { 
+
+    ctx.beginPath();
+
+    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+
+    ctx.fillStyle = "#F00000";
+
+    ctx.fill();
+
+    ctx.closePath();
+
+}
+
+	function drawPaddle() {
+
+    ctx.beginPath();
+
+    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+
+    ctx.fillStyle = "#000000";
+
+    ctx.fill();
+
+    ctx.closePath();
+
+}
+
+	function drawBricks() {
+
+    for(var c=0; c<brickColumnCount; c++) {
+
+    for(var r=0; r<brickRowCount; r++) {
+
+    if(bricks[c][r].status == 1) {
+
+    var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+
+    var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+
+    bricks[c][r].x = brickX;
+
+    bricks[c][r].y = brickY;
+
+    ctx.beginPath();
+
+    ctx.rect(brickX, brickY, brickWidth, brickHeight);
+
+    ctx.fillStyle = getRandomColour();
+
+    ctx.fill();
+
+    ctx.closePath();
+
+			}
+
+		}
+
+	}
+
+}
+
+	//movement/collosion/etc.
+
+	function draw() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawBall();
+
+    drawPaddle();
+
+    drawBricks();
+
+    drawScore();
+
+    drawLives();
+
+    collisionDetection();
+
+    if(y + dy < 0) {
+
+       dy = -dy;
+
+    
+
+}
+
+	if(y + dy < ballRadius) {
+
+    dy = -dy;
+
+} 	else if(y + dy > canvas.height-ballRadius) {
+
+    if(x > paddleX && x < paddleX + paddleWidth) {
+
+       dy = -dy;
+
+}
+
+    else {
+
+    lives--;
+
+	if(!lives) {
+
+        sessionStorage.setItem("hiscore", hiscore);
+
+        $.post("game_over.php", function(data){
+                    $('#main').html(data);
+                    clearInterval(interval);
+                });
+
+    
+
+}
+
+	else {
+
+    x = canvas.width/2;
+
+    y = canvas.height-30;
+
+    dx = 2;
+
+    dy = -2;
+
+    paddleX = (canvas.width-paddleWidth)/2;
+
+		}
+
+	}
+
+}
+
+	if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+
+       dx = -dx;
+
+}
+
+	if(rightPressed) {
+
+    paddleX += 4;
+
+    if (paddleX + paddleWidth > canvas.width){
+
+        paddleX = canvas.width - paddleWidth;
+
+	}
+
+}
+
+	else if(leftPressed) {
+
+    paddleX -= 4;
+
+    if (paddleX < 0){
+
+        paddleX = 0;
+
+	}
+
+}
+
+    x += dx;
+
+    y += dy;
+
+}
+
+
+
+var interval = setInterval(draw, 5);
+
+
+
+</script>
+
+<div id="music" style="visibility:hidden">
+
+    <audio autoplay loop>
+
+        <source src="rauta.mp3" type="audio/mpeg">
+
+    </audio>
+
+</div>
+
+</body>
+</html>

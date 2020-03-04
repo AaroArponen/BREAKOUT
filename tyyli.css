@@ -1,0 +1,248 @@
+/* ID */
+#main
+
+{
+
+    background: rgb(0, 0, 0);
+
+    width: 720px;
+
+    height: 576px;
+
+    padding: 0 0 0 0;
+
+    position: relative;
+
+    margin: auto auto;
+
+}
+
+
+
+#music {
+
+  display:none;
+
+}
+
+
+
+/* class */
+
+
+
+.hiscore
+
+{
+
+  animation: blinker 3s linear infinite;
+
+  color: floralwhite;
+
+}
+
+  @keyframes blinker {
+
+    67% {
+
+      opacity: 33;
+
+  }
+
+}
+
+
+
+.gameover
+
+
+
+{
+
+
+
+  color: #FFFFFF;
+
+    animation: blinker 1s linear infinite;
+
+    font-family: 'Roboto';
+
+    font-size: 54px;
+
+    padding: 171px;
+
+    text-align: center;
+
+}
+
+
+
+@keyframes blinker {
+
+  50% {
+
+    opacity: 0;
+
+  }
+
+}
+
+
+
+/* class */
+
+
+
+.vertical_align
+
+{
+
+  padding: 144px;        
+
+}
+
+
+
+.vertical_align2
+
+{
+
+  padding-top: 36px;
+
+  font-family: 'Roboto';
+
+  font-size: 27px;
+
+  text-align: center;
+
+}
+
+
+
+.begin1
+
+{
+
+    color: floralwhite;
+
+    animation: blinker 1.1667s linear infinite;
+
+    display: inline;
+
+}
+
+
+
+@keyframes blinker {
+
+  50% {
+
+    opacity: 0;
+
+  }
+
+}
+
+
+
+.begin2
+
+{
+
+    color: floralwhite;
+
+    animation: blinker 1.111s linear infinite;
+
+    display: inline;
+
+}
+
+
+
+@keyframes blinker {
+
+  50% {
+
+    opacity: 0;
+
+  }
+
+}
+
+
+
+.begin3
+
+{
+
+    color: floralwhite;
+
+    animation: blinker 1.125s linear infinite;
+
+    display: inline;
+
+}
+
+
+
+@keyframes blinker {
+
+  50% {
+
+    opacity: 0;
+
+  }
+
+}
+
+
+
+.begin4
+
+{
+
+    color: floralwhite;
+
+    animation: blinker 1.143s linear infinite;
+
+    display: inline;
+
+}
+
+
+
+@keyframes blinker {
+
+  50% {
+
+    opacity: 0;
+
+  }
+
+}
+
+
+    .hidden {
+        display: none;
+    }
+
+
+/* täki */
+
+body
+
+{
+
+    display: block;
+
+    font-family: 'Roboto';
+
+    font-size: 18px;
+
+    color: rgb(219, 216, 216);
+
+    text-align: center;
+
+    padding: 0 0 0 0;
+
+  }
